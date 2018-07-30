@@ -1,0 +1,8 @@
+<div class="col-md-12 container">
+  <div class="row row-top">
+    <div class="col-md-12">
+      <input type="text" [(ngModel)]="listContent" placeholder="Title for the new task...">
+      <textarea [(ngModel)]="listBody" class="note-body" placeholder="Add a description here..."></textarea>
+      <button class="btn btn-success add-btn" (click)=addItemToList()>Add</button>
+    </div>
+  </div>

@@ -1,0 +1,9 @@
+<div class="col-md-12 login-container">
+        <h2 style="color:rgb(97, 148, 190); font-size:1.2em;">Login to Continue</h2>
+        <form (submit)=formSubmitted()>
+                <input required placeholder="Enter Username" type="text" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}">
+                <input required placeholder="Enter Password" type="password" [(ngModel)]="user.password" [ngModelOptions]="{standalone: true}">
+                <input class="btn btn-success" type="submit" value="Login">
+        </form>
+        <span class="label label-default">{{loginMessage}}</span>
+</div>

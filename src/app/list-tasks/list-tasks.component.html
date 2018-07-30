@@ -1,0 +1,32 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<app-header></app-header>
+<app-modal [pageNo]="pageId" [itemsPerPage]="itemsPerPage" [newTitle]="newTitle" [newBody]="newBody"></app-modal>
+<div class="col-md-12 container">
+    <div class="row row-top">
+        <div class="col-md-12">
+            <h3 style="color:rgb(97, 148, 190); font-size:1.2em;" *ngIf="listService.listObj.length==0">Seems like you didn't add any tasks yet!</h3>
+            <input min="1" max="10" (change)=itemsChange() *ngIf="listService.listObj.length>0" type="number" [(ngModel)]="itemsPerPage" style="width: 3em; height: 1.4em; margin-right:2em;"><small *ngIf="listService.listObj.length>0"> Items per page</small>
+            <ul>
+                <li class="li-data page-item" *ngFor="let item of listService.listObjPaged;o as odd">
+                        <h2> {{item.content | uppercase}}
+                                <fa class="icons" (click)=removeFromList(item) name="trash"></fa>
+                                <fa class="icons" (click)=editSelectedItem(item) name="pencil" data-toggle="modal" data-target="#editModal"></fa>
+                            </h2>
+                            <span class="col-md-10">
+                                {{item.body}}
+                            </span>
+                </li>
+                <nav *ngIf="listService.listObj.length>=itemsPerPage" aria-label="Page navigation example">
+                    <ul class="pagination justify-content-end">
+                        <li [class]="pageId==1?'page-item disabled':'page-item'">
+                            <a class="page-link" (click)=prevPage()>Previous</a>
+                        </li>
+                        <li [class]="pageId==listService.lastPage?'page-item disabled':'page-item'">
+                            <a class="page-link" (click)=nextPage()>Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </ul>
+        </div>
+    </div>
+</div>

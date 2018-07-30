@@ -1,0 +1,22 @@
+.header-row{
+    background: #003D5B;
+    min-height: 5em;
+}
+.header-row{
+    padding-top:0.4em;
+}
+.header-row h2, small{
+   color: #c9d3dc
+}
+.add-btn{
+    margin-top: 0.9em;
+    min-width: 5em;
+    margin-bottom: 2em;
+    background:none;
+    color:#fff;
+    outline:1px solid rgb(255, 255, 255,0.6);
+}
+.add-btn:hover{
+    opacity:0.8;
+    transition:all,0.2s;
+}
