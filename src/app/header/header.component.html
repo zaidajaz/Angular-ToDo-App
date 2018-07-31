@@ -1,7 +1,7 @@
 <div class="col-md-12 header-row">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-9">
                 <div class="row">
                     <h2>My Tasks</h2>
                 </div>
@@ -10,7 +10,16 @@
                 </div>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-default add-btn" data-toggle="modal" data-target="#modal"><fa name="plus"></fa> Add New Task</button>
+                <button *ngIf="loggedInUser.isAdmin" class="btn btn-default add-btn" data-toggle="modal" data-target="#modal"><fa name="plus"></fa> Add New Task</button>
+            </div>
+            <div class="col-md-1 user-icon-parent">
+                <fa class="user-icon" name="user"></fa>
+                <div class="user-hover-menu">
+                    <ul>
+                        <li>Hi <i>{{loggedInUser.username}}</i></li>
+                        <li (click)=logoutUser()>Logout</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

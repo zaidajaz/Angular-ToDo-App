@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { list } from '../../list';
-import { ListServiceService } from '../list-service.service'
+import { ListServiceService } from '../list-service.service';
+import { UserServiceService } from '../user-service.service';
 
 @Component({
   selector: 'app-modal',
@@ -20,25 +21,30 @@ export class ModalComponent implements OnInit {
   @Input() pageNo;
   @Input() itemsPerPage;
 
-  constructor(private listService: ListServiceService) { }
+  constructor(private listService: ListServiceService, private userService: UserServiceService) { }
 
   ngOnInit() {
   }
   addItemToList() : void{
-    let condition = false;
-    condition = this.listContent == undefined || this.listContent=="" || this.listBody==undefined || this.listBody=="";
-    if(condition){
-      alert("Please, Enter Some Value");
+    if(this.userService.getLoggedInUser().isAdmin){
+      let condition = false;
+      condition = this.listContent == undefined || this.listContent=="" || this.listBody==undefined || this.listBody=="";
+      if(condition){
+        alert("Please, Enter Some Value");
+      }
+      else{
+        this.listItem = new list();
+        this.listItem.id = this.count++;
+        this.listItem.content = this.listContent;
+        this.listItem.body = this.listBody;
+        this.listService.add(this.listItem,this.pageNo,this.itemsPerPage);
+        this.listService.sendDataToServer("http://localhost:8080");
+        this.listContent = "";
+        this.listBody = "";
+      }
     }
     else{
-      this.listItem = new list();
-      this.listItem.id = this.count++;
-      this.listItem.content = this.listContent;
-      this.listItem.body = this.listBody;
-      this.listService.add(this.listItem,this.pageNo,this.itemsPerPage);
-      this.listService.sendDataToServer("http://localhost:8080");
-      this.listContent = "";
-      this.listBody = "";
+      alert('You are not admin')
     }
   }
   saveEdit(): void{

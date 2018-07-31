@@ -20,3 +20,52 @@
     opacity:0.8;
     transition:all,0.2s;
 }
+.user-icon-parent{
+    padding-top: 0.7em;
+}
+.user-icon{
+    color:#fff;
+    font-size: 1.8em;
+    margin-bottom: 2em;
+    padding:0.3em;
+    cursor: pointer;
+    height: 5em;
+    position: relative;
+}
+.user-icon:hover{
+    color:#30638e;
+}
+.user-hover-menu{
+    position: absolute;
+    left: -2em;
+    min-height: 5em;
+    width:9em;
+    /* padding: 1em; */
+    z-index: 2;
+    top:3.1em;
+    text-align: center;
+    background:#003d5b;
+    color:#fff;
+    display: none;
+    box-shadow: 1px 1px 5px #003d5b;
+}
+.user-hover-menu:hover{
+    display: block;
+}
+.user-icon:hover + .user-hover-menu{
+    display:block;
+}
+.user-hover-menu ul{
+    padding:0;
+    margin: 0;
+    list-style: none;
+}
+.user-hover-menu ul li{
+    margin:0;
+    padding:0.2em;
+    margin-top:0.1em;
+    cursor:pointer;
+}
+.user-hover-menu ul li:hover:not(:first-of-type){
+    background-color: #164e7d;
+}
