@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { list } from '../../list';
 import { ListServiceService } from '../list-service.service';
 import { UserServiceService } from '../user-service.service';
+import { user } from '../../user';
 
 @Component({
   selector: 'app-modal',
@@ -20,10 +21,16 @@ export class ModalComponent implements OnInit {
   @Input() newBody: string;
   @Input() pageNo;
   @Input() itemsPerPage;
+  users: user[];
+  userListActive = false;
+  selectedUsers:string[];
 
   constructor(private listService: ListServiceService, private userService: UserServiceService) { }
 
   ngOnInit() {
+    this.users = JSON.parse(localStorage.getItem('users'));
+    this.users.splice(0,1);
+    this.selectedUsers = new Array<string>();
   }
   addItemToList() : void{
     if(this.userService.getLoggedInUser().isAdmin){
@@ -57,5 +64,25 @@ export class ModalComponent implements OnInit {
     else{
       alert("Please, Enter Some Value");
     }
+  }
+
+  userListClick(user: user): void{
+    let objectPos = this.selectedUsers.indexOf(user.username);
+    if(objectPos == -1)
+      this.selectedUsers.push(user.username);
+    else
+      this.selectedUsers.splice(objectPos,1);
+  }
+
+  isUserSelected(user){
+    if(this.selectedUsers.indexOf(user.username) != -1)
+     return true;
+    else
+      return false;
+  }
+  assignUser(): void{
+    let index: number = this.listService.listObj.indexOf(this.listService.editableItem);
+    this.listService.listObj[index].assignedTo = this.selectedUsers;
+    this.selectedUsers = [];
   }
 }

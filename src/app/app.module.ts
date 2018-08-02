@@ -13,7 +13,8 @@ import { ListServiceService } from 'src/app/list-service.service';
 import { TestClientComponent } from './test-client/test-client.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './login/login.component'
+import { LoginComponent } from './login/login.component';
+import { BannedUserDirective } from './banned-user.directive'
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { LoginComponent } from './login/login.component'
     AddTaskComponent,
     ListTasksComponent,
     TestClientComponent,
-    LoginComponent
+    LoginComponent,
+    BannedUserDirective
   ],
   imports: [
     BrowserModule,

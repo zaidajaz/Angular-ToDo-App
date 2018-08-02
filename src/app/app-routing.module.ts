@@ -14,7 +14,8 @@ const routes: Routes = [
   {path: 'list', component:ListTasksComponent},
   {path:'list/:id', component: ListTasksComponent},
   {path:'client', component: TestClientComponent},
-  {path:'login',component:LoginComponent}
+  {path:'login',component:LoginComponent},
+  {path: '**', component:LoginComponent}
 ];
 @NgModule({
   imports: [

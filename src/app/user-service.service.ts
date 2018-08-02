@@ -5,11 +5,11 @@ import { user } from '../user';
   providedIn: 'root'
 })
 export class UserServiceService {
-
+  loggedInUser: user;
   constructor() { }
-
+  
   getLoggedInUser(): user{
-      let loggedInUser: user = JSON.parse(localStorage.getItem('user'));
-      return loggedInUser;
+      this.loggedInUser = JSON.parse(localStorage.getItem('user'));
+      return this.loggedInUser;
   }
 }

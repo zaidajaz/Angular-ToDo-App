@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { list } from '../../list';
 import { ListServiceService } from 'src/app/list-service.service';
 import { ActivatedRoute } from '@angular/router';
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
-import { Observable } from 'rxjs';
-import { preserveWhitespacesDefault } from '@angular/compiler';
+import { UserServiceService } from '../user-service.service';
 
 @Component({
   selector: 'app-list-tasks',
@@ -30,12 +28,16 @@ export class ListTasksComponent implements OnInit {
   pageId = 1;
   itemsPerPage = 3;
   initialIndex;
+  userList: list[];
 
-  constructor(private listService: ListServiceService, private route:ActivatedRoute){
+  constructor(private listService: ListServiceService, private route:ActivatedRoute, private userService: UserServiceService){
   }
 
   removeFromList(item): void{
-    var isConfirmed = confirm("Are you sure, you want to delete this?");
+    if(this.userService.getLoggedInUser().isAdmin)
+      var isConfirmed = confirm("Are you sure, you want to delete this?");
+    else
+      var isConfirmed = confirm("Are you sure, you want to mark this as complete?");
     if(isConfirmed){
       this.listService.remove(item,this.pageId,this.itemsPerPage);
     } 
@@ -76,10 +78,45 @@ export class ListTasksComponent implements OnInit {
       this.listService.updatePagedList(this.pageId,this.itemsPerPage); 
     }
   }
-  ngOnInit(){
-    this.listService.getDataFromUrl("http://localhost:8080").subscribe((data : list[]) => {
-        this.listService.listObj = data;
-        this.listService.updatePagedList(this.pageId,this.itemsPerPage);
+  canView(item:list){
+    let loggedInUser = this.userService.getLoggedInUser();
+    if(loggedInUser.isAdmin)
+     return true;
+
+    let allowed = false;
+    item.assignedTo.forEach(assignedUser=>{
+      if(assignedUser == loggedInUser.username)
+        allowed = true;
     });
-   }
+    return allowed;
+  }
+  noTasksDisplay():boolean{
+    if(this.userService.loggedInUser.isAdmin){
+      if(this.listService.listObj.length==0)
+        return true;
+    }
+    else{
+      if(this.listService.userListObj.length==0)
+        return true;
+    }
+    return false;
+  }
+  ngOnInit(){
+    // this.listService.getDataFromUrl("http://localhost:8080").subscribe((data : list[]) => {
+    //     this.listService.listObj = data;
+    //     this.listService.updatePagedList(this.pageId,this.itemsPerPage);
+    // });
+   this.userList = [];
+   this.listService.listObjPaged = [];
+   this.pageId = 1;
+   this.listService.listObj.forEach(listItem => {
+      if(listItem.assignedTo != undefined){
+        if(listItem.assignedTo.indexOf(this.userService.getLoggedInUser().username) != -1){
+          this.userList.push(listItem);
+        }
+      }
+   });
+   this.listService.userListObj = this.userList;
+   this.listService.updatePagedList(this.pageId,this.itemsPerPage);
+  }
 }

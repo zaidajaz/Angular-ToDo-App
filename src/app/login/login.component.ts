@@ -30,7 +30,13 @@ export class LoginComponent implements OnInit {
     this.allowLogin = false;
     let users:user[] = [
       {'username':'zaid','password':'hello','isAdmin':true},
-      {'username':'diaz','password':'olleh','isAdmin':false}
+      {'username':'diaz','password':'olleh','isAdmin':false},
+      {'username':'user1','password':'olleh','isAdmin':false},
+      {'username':'user2','password':'olleh','isAdmin':false},
+      {'username':'user3','password':'olleh','isAdmin':false},
+      {'username':'user4','password':'olleh','isAdmin':false},
+      {'username':'user5','password':'olleh','isAdmin':false},
+      {'username':'user6','password':'olleh','isAdmin':false},
     ];
 
     users.forEach(ruser => {
@@ -38,6 +44,7 @@ export class LoginComponent implements OnInit {
         if(ruser["password"] == user.password){
           this.allowLogin = true;
           localStorage.setItem('user',JSON.stringify(ruser));
+          localStorage.setItem('users',JSON.stringify(users));
         }
       }
     });
